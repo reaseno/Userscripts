@@ -38,7 +38,7 @@ GM_addStyle(`
       display: block;
       margin: 10px;
   }
-`)
+`);
 
 // check if amount is enough for amazon free delivery
 const totalCostObserver = new MutationObserver(() => {
@@ -69,9 +69,7 @@ const buyBoxObserver = new MutationObserver(() => {
     document
       .evaluate('//*[contains(text(),"Exklusives Prime-Angebot")]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
       .snapshotItem(0)
-      ?.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll(
-        "h5"
-      )[1]
+      ?.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelectorAll("h5")[1]
       .click();
   }
 });
