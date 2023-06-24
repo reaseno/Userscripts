@@ -13,7 +13,7 @@
 // @grant          GM_addStyle
 // @run-at         document-start
 // @compatible     chrome
-// @license        GPL License
+// @license        GPL3
 // @noframes
 // ==/UserScript==
 
