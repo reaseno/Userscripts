@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name           Amazon: Anti Dark Patterns
-// @name:de        Amazon: Anti Dark Patterns
-// @version        0.20
+// @name           Amazon Anti Dark Patterns
+// @name:de        Amazon Anti Dark Patterns
+// @version        20230624
 // @author         reaseno
 // @description    Is intended to prevent additional charges such as accidental subscriptions, as Amazon provokes this.
 // @description:de Soll Zusatzkosten wie versehentliche Abonnements verhindern, da Amazon dies provoziert.
@@ -12,6 +12,7 @@
 // @icon           https://icons.duckduckgo.com/ip2/amazon.de.ico
 // @grant          GM_addStyle
 // @run-at         document-start
+// @compatible     chrome
 // @noframes
 // ==/UserScript==
 
