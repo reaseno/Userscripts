@@ -13,7 +13,7 @@
 // @noframes
 // ==/UserScript==
 
-'use strict';
+"use strict";
 
 function createMagnetLink(link, hash) {
     const magnetLink = "magnet:?xt=urn:btih:" + hash;
@@ -40,9 +40,12 @@ function getHashFromHref(href) {
     return matches ? matches[2] : null;
 }
 
-if (window.location.href.match(/\/search/)) {
-    console.log("search");
+// ----------------------------------------------------------------------------------------------------
+// Main
+// ----------------------------------------------------------------------------------------------------
 
+// search page
+if (window.location.href.match(/\/search/)) {
     const links = document.querySelectorAll('a[href*="/magnet/"]:not([href^="magnet:"])');
     links.forEach((link) => {
         fetch(link.href)
@@ -76,9 +79,8 @@ if (window.location.href.match(/\/search/)) {
     }, 100);
 }
 
+// details page
 if (window.location.href.match(/\/magnet/)) {
-    console.log("details");
-
     const links = document.querySelectorAll('a:not([href^="magnet:"])');
     links.forEach((link) => {
         const hash = getHashFromHref(link.getAttribute("href") || "");
