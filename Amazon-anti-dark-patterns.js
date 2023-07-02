@@ -219,6 +219,3 @@ function main() {
 }
 
 document.addEventListener("DOMContentLoaded", main);
-
-// interesting helper elements:
-// https://greasyfork.org/en/scripts/419641-amazon-clean-ui/code
