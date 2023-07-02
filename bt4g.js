@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           BT4G add magnet links
+// @name           BT4G Add Magnet Links
 // @version        20230702
 // @author         reaseno
 // @description    Adds magnet links to the search list of BT4G
