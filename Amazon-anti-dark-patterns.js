@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           Amazon Anti Dark Patterns
 // @name:de        Amazon Anti Dark Patterns
-// @version        20230624
+// @version        20230702
 // @author         reaseno
 // @description    Is intended to prevent additional charges such as accidental subscriptions, as Amazon provokes this.
 // @description:de Soll Zusatzkosten wie versehentliche Abonnements verhindern, da Amazon dies provoziert.
@@ -43,14 +43,28 @@ GM_addStyle(`
 `);
 
 // check if amount is enough for amazon free delivery
-const totalCostObserver = new MutationObserver(() => {
-    console.log("delivery check");
+function totalCostObserver() {
     const buyButton = document.querySelector("#sc-buy-box-ptc-button-announce > div > div.sc-without-multicart");
     const alertInfobox = document.querySelector("#gutterCartViewForm div.a-box.a-alert-inline.a-alert-inline-info");
+
     if (alertInfobox !== null) {
-        buyButton.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+        buyButton.innerText = "Trotz Versandkosten zur Kasse gehen";
     }
-});
+
+    const observer = new MutationObserver(() => {
+        console.log("delivery check");
+        if (alertInfobox !== null) {
+            observer.disconnect(); // stops looking for changes
+            buyButton.innerText = "Trotz Versandkosten zur Kasse gehen";
+            totalCostObserver();
+        }
+    });
+
+    observer.observe(document.querySelector("div#proceed-to-checkout-desktop-container"), {
+        childList: true,
+        subtree: true,
+    });
+}
 
 // check Buybox changes in product details
 const buyBoxObserver = new MutationObserver(() => {
@@ -177,10 +191,7 @@ function main() {
     }
     // cart: check if amount is enough for free amazon delivery
     if (window.location.href.match(/\/cart\/view.html/i)) {
-        totalCostObserver.observe(document.querySelector("div#proceed-to-checkout-desktop-container"), {
-            childList: true,
-            subtree: true,
-        });
+        totalCostObserver();
     }
     // checkout: prime offer & shipping
     if (
