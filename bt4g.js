@@ -2,8 +2,9 @@
 // @name           BT4G add magnet links
 // @version        20230702
 // @author         reaseno
-// @description    Adds magnet links to the search list of BT4G for faster downloading.
+// @description    Adds magnet links to the search list of BT4G
 // @icon           http://bt4gprx.com/favicon.ico
+// @homepage       https://greasyfork.org/en/scripts/469976/
 // @namespace      https://greasyfork.org/users/781194
 // @match          *://bt4gprx.com/*
 // @run-at         document-start
