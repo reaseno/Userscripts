@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name           Amazon Anti Dark Patterns
 // @name:de        Amazon Anti Dark Patterns
-// @version        20230702
+// @version        20230722
 // @author         reaseno
 // @description    Is intended to prevent additional charges such as accidental subscriptions, as Amazon provokes this.
 // @description:de Soll Zusatzkosten wie versehentliche Abonnements verhindern, da Amazon dies provoziert.
+// @icon           https://icons.duckduckgo.com/ip2/amazon.de.ico
 // @homepage       https://greasyfork.org/en/scripts/427663/
 // @namespace      https://greasyfork.org/users/781194
 // @match          https://www.amazon.de/*
 // @exclude        /(.*=.*amazon|.*amazon.*\/signin.*).*$
-// @icon           https://icons.duckduckgo.com/ip2/amazon.de.ico
 // @grant          GM_addStyle
 // @run-at         document-start
 // @compatible     chrome
@@ -42,25 +42,27 @@ GM_addStyle(`
   }
 `);
 
-// check if amount is enough for amazon free delivery
-function totalCostObserver() {
+// check if amount is not enough for amazon free delivery
+function warnIfFreeDeliveryNotPossible() {
+    console.log("delivery check");
     const buyButton = document.querySelector("#sc-buy-box-ptc-button-announce > div > div.sc-without-multicart");
-    const alertInfobox = document.querySelector("#gutterCartViewForm div.a-box.a-alert-inline.a-alert-inline-info");
 
+    const alertInfobox = document.querySelector("#gutterCartViewForm div.a-box.a-alert-inline.a-alert-inline-info");
     if (alertInfobox !== null) {
         buyButton.innerText = "Trotz Versandkosten zur Kasse gehen";
     }
 
-    const observer = new MutationObserver(() => {
-        console.log("delivery check");
+    const waitAndRecheck = new MutationObserver(() => {
+        const alertInfobox = document.querySelector("#gutterCartViewForm div.a-box.a-alert-inline.a-alert-inline-info");
         if (alertInfobox !== null) {
-            observer.disconnect(); // stops looking for changes
-            buyButton.innerText = "Trotz Versandkosten zur Kasse gehen";
-            totalCostObserver();
+            if (document.querySelector("#gutterCartViewForm > div > div.a-section.sc-sss-spinner-box.sc-hidden")) {
+                waitAndRecheck.disconnect();
+                warnIfFreeDeliveryNotPossible();
+            }
         }
     });
 
-    observer.observe(document.querySelector("div#proceed-to-checkout-desktop-container"), {
+    waitAndRecheck.observe(document.querySelector("div#proceed-to-checkout-desktop-container"), {
         childList: true,
         subtree: true,
     });
@@ -191,7 +193,7 @@ function main() {
     }
     // cart: check if amount is enough for free amazon delivery
     if (window.location.href.match(/\/cart\/view.html/i)) {
-        totalCostObserver();
+        warnIfFreeDeliveryNotPossible();
     }
     // checkout: prime offer & shipping
     if (
