@@ -23,8 +23,6 @@ GM_addStyle(`
 
 // to track the previous action
 let previousAction = null; // Values: "previous", "next", or null (initial state)
-const previousButton = document.querySelector("div.media-viewer__page-left");
-const nextButton = document.querySelector("div.media-viewer__page-right");
 
 // Function to perform the advertisement action
 function handleAdvertisement() {
@@ -82,6 +80,9 @@ window.addEventListener("keydown", function (event) {
 });
 
 // Listen for click events on the previous and next buttons
+const previousButton = document.querySelector("div.media-viewer__page-left");
+const nextButton = document.querySelector("div.media-viewer__page-right");
+
 previousButton?.addEventListener("click", function () {
     previousAction = "previous";
 });
