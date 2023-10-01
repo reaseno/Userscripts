@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           IMDb: skip mediaviewer advertisements
+// @name           IMDb: skip media viewer advertisements
 // @version        20231001
 // @author         reaseno
 // @description    Skips advertisments in the media viewer.
