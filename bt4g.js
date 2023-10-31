@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name           BT4G Add Magnet Links
-// @version        20231029
+// @version        20231031
 // @author         reaseno
 // @description    Adds magnet links to the search list of BT4G
 // @icon           http://bt4gprx.com/favicon.ico
 // @homepage       https://greasyfork.org/en/scripts/469976/
 // @namespace      https://greasyfork.org/users/781194
 // @match          *://bt4gprx.com/*
+// @run-at         document-end
 // @compatible     chrome
 // @license        GPL3
 // @noframes
