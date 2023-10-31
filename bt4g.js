@@ -7,7 +7,6 @@
 // @homepage       https://greasyfork.org/en/scripts/469976/
 // @namespace      https://greasyfork.org/users/781194
 // @match          *://bt4gprx.com/*
-// @run-at         document-start
 // @compatible     chrome
 // @license        GPL3
 // @noframes
