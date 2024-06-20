@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name           BT4G Add Magnet Links
-// @version        20240401
+// @version        20240620
 // @author         reaseno
 // @description    Adds magnet links to the torrents of BT4G
 // @icon           http://bt4gprx.com/favicon.ico
 // @homepage       https://greasyfork.org/en/scripts/469976/
 // @namespace      https://greasyfork.org/users/781194
 // @match          *://bt4gprx.com/*
-// @run-at         document-start
+// @run-at         document-idle
 // @compatible     chrome
 // @license        GPL3
 // @noframes
