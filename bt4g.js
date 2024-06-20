@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           BT4G Add Magnet Links
-// @version        20240620
+// @version        20240621
 // @author         reaseno
 // @description    Adds magnet links to the torrents of BT4G
 // @icon           http://bt4gprx.com/favicon.ico
@@ -65,7 +65,7 @@ function insertMagnetLink(link, hash) {
     const newLink = document.createElement("a");
     newLink.classList.add("magnet-link");
     newLink.href = magnetLink;
-    newLink.addEventListener("click", function() {
+    newLink.addEventListener("click", function () {
         imgElement.style.filter = "grayscale(100%) opacity(0.7)";
     });
 
@@ -83,7 +83,7 @@ function extractHashFromUrl(href) {
     return matches ? matches[2] : null;
 }
 
-function processMagnetLinksInSearchResults() {
+function processLinksInSearchResults() {
     const links = getSearchResultLinks();
     const promises = [];
 
@@ -141,7 +141,7 @@ function observeSearchResults() {
     const observer = new MutationObserver(() => {
         observer.disconnect();
         setTimeout(() => {
-            processMagnetLinksInSearchResults().then(() => {
+            processLinksInSearchResults().then(() => {
                 observeSearchResults();
             });
         }, 500);
@@ -154,39 +154,39 @@ function observeSearchResults() {
 }
 
 function addClickAllMagnetLinks() {
-    const openAllMagnetLinksSpan = document.createElement("span");
-    openAllMagnetLinksSpan.innerHTML = "Open all <b>0</b> loaded magnet links";
-    openAllMagnetLinksSpan.classList.add("magnet-link-all-span");
-    openAllMagnetLinksSpan.style.marginLeft = "10px";
-
-    const openAllMagnetLinksButton = document.createElement("img");
-    openAllMagnetLinksButton.src = magnetImage;
-    openAllMagnetLinksButton.classList.add("magnet-link-img");
-    openAllMagnetLinksButton.style.cssText = "cursor:pointer;vertical-align:sub;";
-
     const itemsFoundElement = getElementByText("span", /Found\ [0-9].*\ items\ for\ .*/i);
-    const targetElement = itemsFoundElement.parentElement.lastChild;
+    const targetElement = itemsFoundElement?.parentElement?.children[1];
     if (targetElement) {
+        const openAllMagnetLinksSpan = document.createElement("span");
+        openAllMagnetLinksSpan.innerHTML = "Open all <b>0</b> loaded magnet links";
+        openAllMagnetLinksSpan.classList.add("magnet-link-all-span");
+        openAllMagnetLinksSpan.style.marginLeft = "10px";
+
+        const openAllMagnetLinksImg = document.createElement("img");
+        openAllMagnetLinksImg.src = magnetImage;
+        openAllMagnetLinksImg.classList.add("magnet-link-img");
+        openAllMagnetLinksImg.style.cssText = "cursor:pointer;vertical-align:sub;";
+
         targetElement.parentNode.insertBefore(openAllMagnetLinksSpan, targetElement.nextSibling);
-        openAllMagnetLinksSpan.parentNode.insertBefore(openAllMagnetLinksButton, openAllMagnetLinksSpan.nextSibling);
+        openAllMagnetLinksSpan.parentNode.insertBefore(openAllMagnetLinksImg, openAllMagnetLinksSpan.nextSibling);
+
+        openAllMagnetLinksImg.addEventListener("click", () => {
+            const addedMagnetLinks = document.querySelectorAll("a.magnet-link");
+            if (addedMagnetLinks.length > 0) {
+                openAllMagnetLinksImg.style.filter = "grayscale(100%) opacity(0.7)";
+                addedMagnetLinks.forEach((link, index) => {
+                    setTimeout(() => {
+                        link.click();
+                    }, index * 100);
+                });
+            } else {
+                openAllMagnetLinksSpan.textContent = "No magnet links found";
+            }
+        });
+
+        // for a fixed position and more space, remove superfluous information
+        itemsFoundElement.innerHTML = itemsFoundElement.innerHTML.replace(/(\ items)\ for\ .*/, "$1");
     }
-
-    openAllMagnetLinksButton.addEventListener("click", () => {
-        const addedMagnetLinks = document.querySelectorAll("a.magnet-link");
-        if (addedMagnetLinks.length > 0) {
-            openAllMagnetLinksButton.style.filter = "grayscale(100%) opacity(0.7)";
-            addedMagnetLinks.forEach((link, index) => {
-                setTimeout(() => {
-                    link.click();
-                }, index * 100);
-            });
-        } else {
-            openAllMagnetLinksSpan.textContent = "No magnet links found";
-        }
-    });
-
-    // for a fixed position and more space, remove superfluous information
-    itemsFoundElement.innerHTML = itemsFoundElement.innerHTML.replace(/(\ items)\ for\ .*/, "$1");
 }
 
 function main() {
@@ -194,7 +194,7 @@ function main() {
     if (window.location.href.match(/\/search/)) {
         addClickAllMagnetLinks();
         observeSearchResults();
-        processMagnetLinksInSearchResults();
+        processLinksInSearchResults();
     }
 
     // torrent detail page
