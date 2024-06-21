@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Magnet Links for BT4G and Limetorrents
-// @version        20240622b
+// @version        20240622c
 // @author         reaseno
 // @description    Adds magnet links to BT4G and Limetorrents
 // @homepage       https://greasyfork.org/en/scripts/469976/
